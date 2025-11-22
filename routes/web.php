@@ -3,6 +3,7 @@
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Home;
+use App\Livewire\Scan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +28,7 @@ Route::middleware('auth.api')->group(function () {
     Route::get('/', Home::class)->name('home');
 
     // Scan
-    Route::get('/scan', function () {
-        return view('welcome');
-    })->name('scan');
+    Route::get('/scan', Scan::class)->name('scan');
 
     // Connections
     Route::get('/connections', function () {
