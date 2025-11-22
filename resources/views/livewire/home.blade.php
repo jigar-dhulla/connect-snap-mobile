@@ -27,11 +27,11 @@
             {{-- User Info Header --}}
             <div class="text-center space-y-2">
                 @if ($profile)
-                    <flux:heading size="xl" class="font-bold">
+                    <flux:heading size="xl" class="font-bold leading-tight">
                         {{ $profile['user']['name'] ?? 'Your Name' }}
                     </flux:heading>
                     @if (!empty($profile['job_title']) || !empty($profile['company']))
-                        <flux:text class="text-zinc-500">
+                        <flux:text class="text-zinc-500 leading-snug">
                             {{ $profile['job_title'] ?? '' }}
                             @if (!empty($profile['job_title']) && !empty($profile['company']))
                                 <span class="mx-1">at</span>
