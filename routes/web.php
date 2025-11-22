@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\Home;
 use App\Livewire\Scan;
@@ -39,4 +40,7 @@ Route::middleware('auth.api')->group(function () {
     Route::get('/profile/edit', function () {
         return view('welcome');
     })->name('profile.edit');
+
+    // Logout
+    Route::get('/logout', Logout::class)->name('logout');
 });

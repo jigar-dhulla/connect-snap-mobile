@@ -5,10 +5,10 @@
         :show-navigation-icon="false"
     >
         <native:top-bar-action
-            id="profile"
-            icon="user-circle"
-            label="Profile"
-            url="{{ route('profile.edit') }}"
+            id="logout"
+            icon="arrow-right-start-on-rectangle"
+            label="Logout"
+            url="{{ route('logout') }}"
         />
     </native:top-bar>
 
