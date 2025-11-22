@@ -2,6 +2,7 @@
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +24,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth.api')->group(function () {
     // Home - My QR Code
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('home');
+    Route::get('/', Home::class)->name('home');
 
     // Scan
     Route::get('/scan', function () {
