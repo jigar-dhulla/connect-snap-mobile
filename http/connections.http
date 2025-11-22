@@ -1,0 +1,34 @@
+### Scan Connection
+POST {{host}}/api/connections/scan
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "qr_code_hash": "v8nDfMEL59EYGneaAG1vVgtMJZNTz2bu"
+}
+
+### Get Connections
+GET {{host}}/api/connections
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Get Single Connection
+GET {{host}}/api/connections/1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Update Connection Notes
+PUT {{host}}/api/connections/1/notes
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "notes": "Met at the conference, interested in our product."
+}
+
+### Delete Connection
+DELETE {{host}}/api/connections/1
+Accept: application/json
+Authorization: Bearer {{auth_token}}

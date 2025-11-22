@@ -1,0 +1,39 @@
+### Register User
+POST {{host}}/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password",
+    "password_confirmation": "password"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Login User
+POST {{host}}/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "john@example.com",
+    "password": "password"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Get Authenticated User
+GET {{host}}/api/user
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Logout User
+POST {{host}}/api/logout
+Accept: application/json
+Authorization: Bearer {{auth_token}}

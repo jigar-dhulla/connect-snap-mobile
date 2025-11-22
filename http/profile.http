@@ -1,0 +1,42 @@
+### Get Profile
+GET {{host}}/api/profile
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Update Profile
+PUT {{host}}/api/profile
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "0987654321",
+    "company": "Tech Corp",
+    "job_title": "Developer",
+    "bio": "Laravel developer",
+    "social_url": "https://linkedin.com/in/johndoe"
+}
+
+### Upload Profile Photo
+POST {{host}}/api/profile/photo
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="photo"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+< ./profile.jpeg
+--WebAppBoundary--
+
+### Get QR Code
+GET {{host}}/api/profile/qr-code
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Public Profile
+GET {{host}}/api/u/{{qr_hash}}
+Accept: application/json

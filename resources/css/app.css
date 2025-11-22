@@ -1,0 +1,46 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@theme {
+    /* Montserrat Font */
+    --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Primary Color - Tech Blue */
+    --color-primary: #005A9C;
+    --color-primary-50: #e6f0f7;
+    --color-primary-100: #cce1ef;
+    --color-primary-200: #99c3df;
+    --color-primary-300: #66a5cf;
+    --color-primary-400: #3387bf;
+    --color-primary-500: #005A9C;
+    --color-primary-600: #00528c;
+    --color-primary-700: #004a7d;
+    --color-primary-800: #00426d;
+    --color-primary-900: #003a5e;
+    --color-primary-950: #002a44;
+}
+
+/* Safe Area Utilities for Mobile */
+.safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+}
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+/* Override Flux accent color to use primary */
+:root {
+    --color-accent: var(--color-primary);
+}
