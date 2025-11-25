@@ -11,6 +11,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Native\Mobile\Events\Scanner\CodeScanned;
+use Native\Mobile\Facades\Dialog;
 use Native\Mobile\Facades\Scanner;
 
 #[Layout('components.layouts.app')]
@@ -20,10 +21,6 @@ class Scan extends Component
 
     public ?array $scannedProfile = null;
 
-    public ?string $error = null;
-
-    public ?string $success = null;
-
     public bool $processing = false;
 
     /**
@@ -31,8 +28,6 @@ class Scan extends Component
      */
     public function openScanner(): void
     {
-        $this->error = null;
-
         Scanner::make()
             ->prompt('Scan a ConnectSnap QR code')
             ->formats(['qr_code'])
@@ -55,14 +50,12 @@ class Scan extends Component
     public function processQrCode(string $qrData): void
     {
         $this->processing = true;
-        $this->error = null;
-        $this->success = null;
 
         // Extract hash from QR code format: connectsnap://u/{hash}
         $hash = $this->extractHashFromQrCode($qrData);
 
         if (! $hash) {
-            $this->error = 'Invalid QR code format. Please scan a ConnectSnap QR code.';
+            Dialog::toast('Invalid QR code format. Please scan a ConnectSnap QR code.');
             $this->processing = false;
 
             return;
@@ -85,7 +78,7 @@ class Scan extends Component
             if ($response->successful()) {
                 $data = $response->json('data');
                 $this->scannedProfile = $data;
-                $this->success = 'Connection added successfully!';
+                Dialog::toast('Connection added successfully!');
             } else {
                 $message = $response->json('message', 'Failed to add connection.');
 
@@ -98,10 +91,10 @@ class Scan extends Component
                     $message = 'You cannot scan your own QR code.';
                 }
 
-                $this->error = $message;
+                Dialog::toast($message);
             }
         } catch (\Exception $e) {
-            $this->error = 'Unable to connect to server. Please try again.';
+            Dialog::toast('Unable to connect to server. Please try again.');
         } finally {
             $this->processing = false;
         }
@@ -114,8 +107,6 @@ class Scan extends Component
     {
         $this->scannedData = null;
         $this->scannedProfile = null;
-        $this->error = null;
-        $this->success = null;
         $this->processing = false;
 
         $this->openScanner();
@@ -128,8 +119,6 @@ class Scan extends Component
     {
         $this->scannedData = null;
         $this->scannedProfile = null;
-        $this->error = null;
-        $this->success = null;
     }
 
     /**

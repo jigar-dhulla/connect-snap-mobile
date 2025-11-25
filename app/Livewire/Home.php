@@ -9,6 +9,7 @@ use App\Services\TokenStorage;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Native\Mobile\Facades\Dialog;
 
 #[Layout('components.layouts.app')]
 class Home extends Component
@@ -20,8 +21,6 @@ class Home extends Component
     public ?string $qrCodeHash = null;
 
     public bool $loading = true;
-
-    public ?string $error = null;
 
     public function mount(ConnectSnapApi $api, TokenStorage $tokenStorage): void
     {
@@ -39,7 +38,6 @@ class Home extends Component
     public function refresh(ConnectSnapApi $api, TokenStorage $tokenStorage): void
     {
         $this->loading = true;
-        $this->error = null;
 
         $token = $tokenStorage->getToken();
 
@@ -57,7 +55,8 @@ class Home extends Component
             if ($profileResponse->successful()) {
                 $this->profile = $profileResponse->json('data');
             } else {
-                $this->error = 'Failed to load profile.';
+                Dialog::toast('Failed to load profile.');
+                return;
             }
 
             // Fetch QR code
@@ -69,10 +68,10 @@ class Home extends Component
                 $this->qrCodeSvg = $encodedSvg ? base64_decode($encodedSvg) : null;
                 $this->qrCodeHash = $qrData['qr_code_hash'] ?? null;
             } else {
-                $this->error = 'Failed to load QR code.';
+                Dialog::toast('Failed to load QR code.');
             }
         } catch (\Exception $e) {
-            $this->error = 'Unable to connect to server. Pull down to retry.';
+            Dialog::toast('Unable to connect to server. Pull down to retry.');
         } finally {
             $this->loading = false;
         }

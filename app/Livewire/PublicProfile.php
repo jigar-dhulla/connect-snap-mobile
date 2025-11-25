@@ -9,6 +9,7 @@ use App\Services\TokenStorage;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Native\Mobile\Facades\Dialog;
 
 #[Layout('components.layouts.guest')]
 class PublicProfile extends Component
@@ -18,10 +19,6 @@ class PublicProfile extends Component
     public ?array $profile = null;
 
     public bool $loading = true;
-
-    public ?string $error = null;
-
-    public ?string $success = null;
 
     public bool $isLoggedIn = false;
 
@@ -43,12 +40,12 @@ class PublicProfile extends Component
             if ($response->successful()) {
                 $this->profile = $response->json('data');
             } elseif ($response->status() === 404) {
-                $this->error = 'Profile not found.';
+                Dialog::toast('Profile not found.');
             } else {
-                $this->error = 'Failed to load profile.';
+                Dialog::toast('Failed to load profile.');
             }
         } catch (\Exception $e) {
-            $this->error = 'Unable to connect to server.';
+            Dialog::toast('Unable to connect to server.');
         } finally {
             $this->loading = false;
         }
@@ -66,7 +63,6 @@ class PublicProfile extends Component
         }
 
         $this->saving = true;
-        $this->error = null;
 
         $token = $tokenStorage->getToken();
 
@@ -74,7 +70,7 @@ class PublicProfile extends Component
             $response = $api->withToken($token)->scanConnection($this->hash);
 
             if ($response->successful()) {
-                $this->success = 'Connection saved!';
+                Dialog::toast('Connection saved!');
             } else {
                 $message = $response->json('message', 'Failed to save connection.');
 
@@ -84,10 +80,10 @@ class PublicProfile extends Component
                     $message = 'Cannot connect with yourself.';
                 }
 
-                $this->error = $message;
+                Dialog::toast($message);
             }
         } catch (\Exception $e) {
-            $this->error = 'Unable to save connection.';
+            Dialog::toast('Unable to save connection.');
         } finally {
             $this->saving = false;
         }

@@ -4,18 +4,7 @@
         <flux:icon name="arrow-path" class="w-8 h-8 animate-spin text-tech-blue" />
     </div>
 
-    {{-- Error State --}}
-    @if ($error)
-        <flux:card class="w-full max-w-sm p-6 text-center space-y-4">
-            <flux:icon name="exclamation-circle" class="w-16 h-16 mx-auto text-red-500" />
-            <flux:heading size="lg">Something went wrong</flux:heading>
-            <flux:text class="text-zinc-500">{{ $error }}</flux:text>
-            <flux:button wire:click="refresh" variant="primary" class="w-full">
-                <flux:icon name="arrow-path" class="w-4 h-4 mr-2" />
-                Try Again
-            </flux:button>
-        </flux:card>
-    @elseif ($loading)
+    @if ($loading)
         {{-- Initial Loading State --}}
         <div class="flex flex-col items-center justify-center space-y-4">
             <flux:icon name="arrow-path" class="w-12 h-12 animate-spin text-tech-blue" />

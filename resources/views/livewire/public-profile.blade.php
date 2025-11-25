@@ -5,36 +5,9 @@
             <flux:icon name="arrow-path" class="w-12 h-12 animate-spin text-tech-blue mx-auto" />
             <flux:text class="text-zinc-500">Loading profile...</flux:text>
         </div>
-    @elseif ($error && !$profile)
-        {{-- Error State --}}
-        <flux:card class="w-full max-w-sm p-6 text-center space-y-4">
-            <flux:icon name="exclamation-circle" class="w-16 h-16 mx-auto text-red-500" />
-            <flux:heading size="lg">Oops!</flux:heading>
-            <flux:text class="text-zinc-500">{{ $error }}</flux:text>
-            <flux:button href="{{ route('home') }}" wire:navigate variant="primary" class="w-full">
-                Go Home
-            </flux:button>
-        </flux:card>
     @elseif ($profile)
         {{-- Profile Display --}}
         <div class="w-full max-w-sm space-y-4">
-            {{-- Success Message --}}
-            @if ($success)
-                <div class="text-center">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30">
-                        <flux:icon name="check-circle" class="w-5 h-5 text-green-500" />
-                        <flux:text class="text-green-600 dark:text-green-400 font-medium">{{ $success }}</flux:text>
-                    </div>
-                </div>
-            @endif
-
-            {{-- Error Message --}}
-            @if ($error)
-                <flux:callout variant="danger">
-                    <flux:callout.text>{{ $error }}</flux:callout.text>
-                </flux:callout>
-            @endif
-
             {{-- Profile Card --}}
             <flux:card class="p-6 space-y-5">
                 {{-- Profile Header --}}
@@ -91,22 +64,20 @@
 
             {{-- Action Buttons --}}
             <div class="space-y-3">
-                @if (!$success)
-                    <flux:button
-                        wire:click="saveConnection"
-                        wire:loading.attr="disabled"
-                        variant="primary"
-                        class="w-full"
-                    >
-                        <span wire:loading.remove wire:target="saveConnection" class="inline-flex items-center justify-center">
-                            <flux:icon name="user-plus" class="w-4 h-4 mr-2" />
-                            {{ $isLoggedIn ? 'Save Connection' : 'Login to Connect' }}
-                        </span>
-                        <span wire:loading wire:target="saveConnection">
-                            Saving...
-                        </span>
-                    </flux:button>
-                @endif
+                <flux:button
+                    wire:click="saveConnection"
+                    wire:loading.attr="disabled"
+                    variant="primary"
+                    class="w-full"
+                >
+                    <span wire:loading.remove wire:target="saveConnection" class="inline-flex items-center justify-center">
+                        <flux:icon name="user-plus" class="w-4 h-4 mr-2" />
+                        {{ $isLoggedIn ? 'Save Connection' : 'Login to Connect' }}
+                    </span>
+                    <span wire:loading wire:target="saveConnection">
+                        Saving...
+                    </span>
+                </flux:button>
 
                 @if ($isLoggedIn)
                     <flux:button href="{{ route('home') }}" wire:navigate variant="ghost" class="w-full">
