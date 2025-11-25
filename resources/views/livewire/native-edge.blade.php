@@ -6,7 +6,7 @@
     >
         <native:top-bar-action
             id="logout"
-            icon="arrow-right-start-on-rectangle"
+            icon="arrow-right-end-on-rectangle"
             label="Logout"
             url="{{ route('logout') }}"
         />
@@ -38,7 +38,6 @@
             label="Connections"
             url="{{ route('connections.index') }}"
             icon="users"
-            badge="{{ $connectionsCount > 0 ? $connectionsCount : '' }}"
             :active="request()->routeIs('connections.*')"
         />
     </native:bottom-nav>

@@ -4,6 +4,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Logout;
 use App\Livewire\Auth\Register;
 use App\Livewire\Home;
+use App\Livewire\PublicProfile;
 use App\Livewire\Scan;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +45,12 @@ Route::middleware('auth.api')->group(function () {
     // Logout
     Route::get('/logout', Logout::class)->name('logout');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes (No Authentication Required)
+|--------------------------------------------------------------------------
+*/
+
+// Public Profile View
+Route::get('/u/{hash}', PublicProfile::class)->name('profile.public');

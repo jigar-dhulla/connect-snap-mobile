@@ -10,7 +10,7 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Native\Mobile\Events\QrCode\Scanned;
+use Native\Mobile\Events\Scanner\CodeScanned;
 use Native\Mobile\Facades\Scanner;
 
 #[Layout('components.layouts.app')]
@@ -42,7 +42,7 @@ class Scan extends Component
     /**
      * Handle scanned QR code from native scanner.
      */
-    #[On('native:'.Scanned::class)]
+    #[On('native:'.CodeScanned::class)]
     public function handleScanned(string $data, string $format): void
     {
         $this->scannedData = $data;

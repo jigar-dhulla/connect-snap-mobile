@@ -23,8 +23,7 @@
                     </flux:text>
                 </div>
 
-                <flux:button wire:click="openScanner" variant="primary" class="w-full">
-                    <flux:icon name="camera" class="w-5 h-5 mr-2" />
+                <flux:button wire:click="openScanner" variant="primary" icon="camera" class="w-full">
                     Open Scanner
                 </flux:button>
             </flux:card>
@@ -44,8 +43,7 @@
                 </div>
 
                 <div class="space-y-3">
-                    <flux:button wire:click="openScanner" variant="primary" class="w-full">
-                        <flux:icon name="arrow-path" class="w-4 h-4 mr-2" />
+                    <flux:button wire:click="openScanner" variant="primary" icon="arrow-path" class="w-full">
                         Try Again
                     </flux:button>
                     <flux:button wire:click="clearResult" variant="ghost" class="w-full">
@@ -58,6 +56,9 @@
 
     {{-- Success State - Show Scanned Profile --}}
     @if ($scannedProfile)
+        @php
+            $profile = $scannedProfile['scanned_profile'] ?? [];
+        @endphp
         <div class="flex-1 flex flex-col space-y-4">
             {{-- Success Badge --}}
             @if ($success)
@@ -73,10 +74,10 @@
             <flux:card class="p-5 space-y-5">
                 {{-- Profile Header --}}
                 <div class="flex items-center gap-4">
-                    @if (!empty($scannedProfile['connected_user']['profile_photo_url']))
+                    @if (!empty($profile['profile_photo_url']))
                         <img
-                            src="{{ $scannedProfile['connected_user']['profile_photo_url'] }}"
-                            alt="{{ $scannedProfile['connected_user']['name'] }}"
+                            src="{{ $profile['profile_photo_url'] }}"
+                            alt="{{ $profile['name'] }}"
                             class="w-20 h-20 rounded-full object-cover"
                         />
                     @else
@@ -87,56 +88,38 @@
 
                     <div class="flex-1 min-w-0">
                         <flux:heading size="xl" class="truncate leading-tight">
-                            {{ $scannedProfile['connected_user']['name'] ?? 'Unknown' }}
+                            {{ $profile['name'] ?? 'Unknown' }}
                         </flux:heading>
-                        @if (!empty($scannedProfile['connected_profile']['job_title']) || !empty($scannedProfile['connected_profile']['company']))
+                        @if (!empty($profile['job_title']) || !empty($profile['company']))
                             <flux:text class="text-zinc-500 text-sm leading-snug">
-                                {{ $scannedProfile['connected_profile']['job_title'] ?? '' }}
-                                @if (!empty($scannedProfile['connected_profile']['job_title']) && !empty($scannedProfile['connected_profile']['company']))
+                                {{ $profile['job_title'] ?? '' }}
+                                @if (!empty($profile['job_title']) && !empty($profile['company']))
                                     at
                                 @endif
-                                {{ $scannedProfile['connected_profile']['company'] ?? '' }}
+                                {{ $profile['company'] ?? '' }}
                             </flux:text>
                         @endif
                     </div>
                 </div>
 
                 {{-- Bio --}}
-                @if (!empty($scannedProfile['connected_profile']['bio']))
+                @if (!empty($profile['bio']))
                     <div class="pt-4 border-t border-zinc-200 dark:border-zinc-700">
                         <flux:text class="text-zinc-600 dark:text-zinc-400">
-                            {{ $scannedProfile['connected_profile']['bio'] }}
+                            {{ $profile['bio'] }}
                         </flux:text>
                     </div>
                 @endif
 
-                {{-- Contact Info --}}
-                @if (!empty($scannedProfile['connected_user']['email']) || !empty($scannedProfile['connected_profile']['phone']) || !empty($scannedProfile['connected_profile']['social_url']))
-                    <div class="space-y-3 pt-4 border-t border-zinc-200 dark:border-zinc-700">
-                        @if (!empty($scannedProfile['connected_user']['email']))
-                            <div class="flex items-center gap-3">
-                                <flux:icon name="envelope" class="w-5 h-5 text-zinc-400" />
-                                <flux:text class="text-zinc-600 dark:text-zinc-400">
-                                    {{ $scannedProfile['connected_user']['email'] }}
-                                </flux:text>
-                            </div>
-                        @endif
-                        @if (!empty($scannedProfile['connected_profile']['phone']))
-                            <div class="flex items-center gap-3">
-                                <flux:icon name="phone" class="w-5 h-5 text-zinc-400" />
-                                <flux:text class="text-zinc-600 dark:text-zinc-400">
-                                    {{ $scannedProfile['connected_profile']['phone'] }}
-                                </flux:text>
-                            </div>
-                        @endif
-                        @if (!empty($scannedProfile['connected_profile']['social_url']))
-                            <div class="flex items-center gap-3">
-                                <flux:icon name="link" class="w-5 h-5 text-zinc-400" />
-                                <a href="{{ $scannedProfile['connected_profile']['social_url'] }}" target="_blank" class="text-tech-blue hover:underline truncate">
-                                    {{ $scannedProfile['connected_profile']['social_url'] }}
-                                </a>
-                            </div>
-                        @endif
+                {{-- Social Link --}}
+                @if (!empty($profile['social_url']))
+                    <div class="pt-4 border-t border-zinc-200 dark:border-zinc-700">
+                        <div class="flex items-center gap-3">
+                            <flux:icon name="link" class="w-5 h-5 text-zinc-400" />
+                            <a href="{{ $profile['social_url'] }}" target="_blank" class="text-tech-blue hover:underline truncate">
+                                {{ $profile['social_url'] }}
+                            </a>
+                        </div>
                     </div>
                 @endif
             </flux:card>
@@ -147,14 +130,13 @@
                     href="{{ route('connections.index') }}"
                     wire:navigate
                     variant="primary"
+                    icon="users"
                     class="w-full"
                 >
-                    <flux:icon name="users" class="w-4 h-4 mr-2" />
                     View Connections
                 </flux:button>
 
-                <flux:button wire:click="scanAgain" variant="ghost" class="w-full">
-                    <flux:icon name="qr-code" class="w-4 h-4 mr-2" />
+                <flux:button wire:click="scanAgain" variant="ghost" icon="qr-code" class="w-full">
                     Scan Another
                 </flux:button>
             </div>
